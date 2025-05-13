@@ -61,8 +61,13 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
     },
   ];
 
-  // Check if the label is WP-DV-23101 to display the image
-  const showImage = data.label === "WP-DV-23101";
+  // Determine which image to show based on label
+  let imageSrc = "";
+  if (data.label === "WP-DV-23101") {
+    imageSrc = "/WP-DV-23101.jpg";
+  } else {
+    imageSrc = `/${data.label}.jpg`;
+  }
 
   return (
     <Card>
@@ -70,15 +75,17 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
         <CardTitle>Inventory Details for Label: {data.label}</CardTitle>
       </CardHeader>
       <CardContent>
-        {showImage && (
-          <div className="mb-6 flex justify-center">
-            <img 
-              src="./public/WP-DV-23101.jpg" 
-              alt="Item Image" 
-              className="rounded-lg max-h-64 object-contain shadow-md" 
-            />
-          </div>
-        )}
+        <div className="mb-6 flex justify-center">
+          <img 
+            src={imageSrc}
+            alt={`Item Image for ${data.label}`}
+            className="rounded-lg max-h-64 object-contain shadow-md"
+            onError={(e) => {
+              // If image fails to load, hide it
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        </div>
         <Table>
           <TableBody>
             {sections.map((section) => (
