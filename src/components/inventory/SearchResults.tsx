@@ -61,12 +61,24 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
     },
   ];
 
+  // Check if the label is WP-DV-23101 to display the image
+  const showImage = data.label === "WP-DV-23101";
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Inventory Details for Label: {data.label}</CardTitle>
       </CardHeader>
       <CardContent>
+        {showImage && (
+          <div className="mb-6 flex justify-center">
+            <img 
+              src="./public/WP-DV-23101.jpg" 
+              alt="Item Image" 
+              className="rounded-lg max-h-64 object-contain shadow-md" 
+            />
+          </div>
+        )}
         <Table>
           <TableBody>
             {sections.map((section) => (
