@@ -1,0 +1,33 @@
+
+#html5qr-code-full-region {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+#html5qr-code-full-region video {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+#html5qr-code-full-region select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+#html5qr-code-full-region button {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+#html5qr-code-full-region button:hover {
+  background-color: #45a049;
+}

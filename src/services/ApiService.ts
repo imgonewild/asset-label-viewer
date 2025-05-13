@@ -7,7 +7,10 @@
  * on environment variables.
  */
 
-const API_BASE_URL = "http://localhost:3000";
+// Determine API base URL based on the current environment
+const protocol = window.location.protocol;
+const hostname = window.location.hostname;
+const API_BASE_URL = `${protocol}//${hostname}:3000`;
 
 export const ApiService = {
   /**
