@@ -2,32 +2,62 @@
 #html5qr-code-full-region {
   width: 100%;
   max-width: 600px;
-  margin: 20px auto;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 #html5qr-code-full-region video {
   width: 100%;
   max-height: 300px;
   object-fit: cover;
+  border-radius: 8px;
+}
+
+.scanner-container {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 #html5qr-code-full-region select {
   width: 100%;
-  padding: 8px;
+  padding: 8px 12px;
   margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-size: 14px;
 }
 
 #html5qr-code-full-region button {
   padding: 8px 16px;
-  background-color: #4CAF50;
-  color: white;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   margin-right: 8px;
   margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: opacity 0.2s ease;
 }
 
 #html5qr-code-full-region button:hover {
-  background-color: #45a049;
+  opacity: 0.9;
+}
+
+/* Make the scanner look part of the theme */
+#html5qr-code-full-region:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  z-index: 1;
 }
