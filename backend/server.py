@@ -1,9 +1,10 @@
 
 from flask import Flask, json, request, jsonify
 from flask_cors import CORS, cross_origin
-import csv
+import csv, os
 import mysql.connector
 import socket
+from flask import send_file
 
 app = Flask(__name__)
 app.json.sort_keys = False
@@ -16,7 +17,16 @@ db_config = {
     'password': '',
     'database': 'test'}
 
-
+@app.route('/WPJK IT Data example.csv')
+def download_csv():
+    try:
+        return send_file(
+            os.path.join(os.path.dirname(__file__), 'WPJK IT Data example.csv'),
+            as_attachment=True
+        )
+    except Exception as e:
+        return str(e), 404
+    
 @cross_origin()
 @app.route('/fetchLabel', methods=['POST'])
 def index():
