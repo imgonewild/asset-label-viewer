@@ -8,7 +8,7 @@
  */
 
 // Determine API base URL based on the current environment
-const protocol = window.location.protocol;
+const protocol = "https:";
 const hostname = window.location.hostname;
 const API_BASE_URL = `${protocol}//${hostname}:3000`;
 

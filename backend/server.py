@@ -1,3 +1,4 @@
+
 from flask import Flask, json, request, jsonify
 from flask_cors import CORS, cross_origin
 import csv
@@ -71,6 +72,7 @@ def upload():
 
 
 if __name__ == '__main__': #WP-DV-23101
-    # context = ('./certs/localhost+3.pem', './certs/localhost+3-key.pem')#certificate and key files
-    app.run(host='0.0.0.0', port=3000)
-    # app.run(host='0.0.0.0', port=3000, ssl_context=context)
+    # Uncomment the certificate and key lines
+    context = ('./certs/localhost+3.pem', './certs/localhost+3-key.pem')  # certificate and key files
+    # Run the server with HTTPS enabled
+    app.run(host='0.0.0.0', port=3000, ssl_context=context)
