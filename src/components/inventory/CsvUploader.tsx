@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Upload } from "lucide-react";
+import { Upload, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -69,6 +69,24 @@ const CsvUploader: React.FC = () => {
     }
   };
 
+  const handleDownloadExample = () => {
+    // Create URL for the example CSV file
+    const exampleCsvPath = `${window.location.protocol}//${window.location.hostname}:3000/WPJK IT Data example.csv`;
+    
+    // Create a temporary anchor element for downloading
+    const link = document.createElement('a');
+    link.href = exampleCsvPath;
+    link.download = "WPJK IT Data example.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    toast({
+      title: "Download started",
+      description: "Example CSV template is being downloaded",
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -106,6 +124,15 @@ const CsvUploader: React.FC = () => {
               {uploading ? "Uploading..." : "Upload"}
             </Button>
           </div>
+          
+          <Button 
+            variant="outline" 
+            onClick={handleDownloadExample} 
+            className="flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Download Example CSV Template
+          </Button>
           
           {uploadStatus && (
             <Alert variant={uploadStatus.success ? "default" : "destructive"}>
