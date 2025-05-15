@@ -1,30 +1,17 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
-import fs from "fs";
-import { componentTagger } from "lovable-tagger";
 
-export default defineConfig(({ mode, command }) => {
-  const isSSL = mode === "ssl";
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
 
-  return {
-    server: {
-      host: "::",
-      port: 8081,
-      ...(isSSL && {
-        https: {
-          key: fs.readFileSync(path.resolve(__dirname, "certs/key.pem")),
-          cert: fs.readFileSync(path.resolve(__dirname, "certs/cert.pem")),
-        },
-      }),
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    plugins: [react(), mode === "development" && componentTagger()].filter(
-      Boolean
-    ),
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./src"),
-      },
-    },
-  };
-});
+  },
+  server: {
+    port: 8080
+  }
+})
