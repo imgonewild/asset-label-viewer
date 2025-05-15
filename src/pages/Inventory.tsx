@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SearchResults from "@/components/inventory/SearchResults";
 import Scanner from "@/components/inventory/Scanner";
-import CsvUploader from "@/components/inventory/CsvUploader";
 import ApiService from "@/services/ApiService";
 
 const Inventory = () => {
@@ -30,8 +28,23 @@ const Inventory = () => {
 
     setIsLoading(true);
     try {
-      const data = await ApiService.searchByLabel(label);
-      
+      // This would be replaced with your actual API endpoint
+      // await ApiService.uploadCsv(file);
+
+      // const response = await fetch("http://localhost:3000/fetchLabel", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ label }),
+      // });
+
+      const response = await ApiService.searchByLabel(
+        JSON.stringify({ label })
+      );
+
+      const data = await response.json();
+
       if (data && data.length > 0) {
         setSearchResults(data[0]);
         toast({
@@ -69,65 +82,54 @@ const Inventory = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">IT Inventory Management</h1>
-      
-      <Tabs defaultValue="search" className="mb-8">
-        <TabsList className="mb-4">
-          <TabsTrigger value="search">Search</TabsTrigger>
-          <TabsTrigger value="upload">Upload CSV</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="search">
-          <Card>
-            <CardHeader>
-              <CardTitle>Search Inventory</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="mb-4">
-                  <TabsTrigger value="search">Search by Label</TabsTrigger>
-                  <TabsTrigger value="scan">Scan Label</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="search">
-                  <div className="flex gap-2 mb-4">
-                    <Input
-                      placeholder="Enter label ID..."
-                      value={label}
-                      onChange={(e) => setLabel(e.target.value)}
-                      className="flex-1"
-                    />
-                    <Button 
-                      onClick={handleSearch} 
-                      disabled={isLoading}
-                      className="flex-shrink-0"
-                    >
-                      {isLoading ? "Searching..." : (
-                        <>
-                          <Search className="h-4 w-4 mr-2" />
-                          Search
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </TabsContent>
-                
-                <TabsContent value="scan">
-                  <Scanner onScan={handleScanResult} />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="upload">
-          <CsvUploader />
-        </TabsContent>
-      </Tabs>
+      <h1 className="text-3xl font-bold mb-8 text-center">
+        WPJK IT Inventory Management
+      </h1>
 
-      {searchResults && (
-        <SearchResults data={searchResults} />
-      )}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Search Inventory</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="mb-4">
+              <TabsTrigger value="search">Search by Label</TabsTrigger>
+              <TabsTrigger value="scan">Scan Label</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="search">
+              <div className="flex gap-2 mb-4">
+                <Input
+                  placeholder="Enter label ID..."
+                  value={label}
+                  onChange={(e) => setLabel(e.target.value)}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={handleSearch}
+                  disabled={isLoading}
+                  className="flex-shrink-0"
+                >
+                  {isLoading ? (
+                    "Searching..."
+                  ) : (
+                    <>
+                      <Search className="h-4 w-4 mr-2" />
+                      Search
+                    </>
+                  )}
+                </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="scan">
+              <Scanner onScan={handleScanResult} />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+
+      {searchResults && <SearchResults data={searchResults} />}
     </div>
   );
 };
