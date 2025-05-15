@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from "react";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SearchResults from "@/components/inventory/SearchResults";
 import Scanner from "@/components/inventory/Scanner";
+import CsvUploader from "@/components/inventory/CsvUploader";
 import ApiService from "@/services/ApiService";
 import Logo from "./assets/inteplast-logo-blue.svg";
 
@@ -29,20 +31,7 @@ const Inventory = () => {
 
     setIsLoading(true);
     try {
-      // This would be replaced with your actual API endpoint
-      // await ApiService.uploadCsv(file);
-
-      // const response = await fetch("http://localhost:3000/fetchLabel", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ label }),
-      // });
-
       const data = await ApiService.searchByLabel(label);
-
-      // const data = await response.json();
 
       if (data && data.length > 0) {
         setSearchResults(data[0]);
@@ -128,6 +117,8 @@ const Inventory = () => {
           </Tabs>
         </CardContent>
       </Card>
+
+      <CsvUploader />
 
       {searchResults && <SearchResults data={searchResults} />}
     </div>
