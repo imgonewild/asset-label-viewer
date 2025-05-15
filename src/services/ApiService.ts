@@ -22,9 +22,9 @@ export const ApiService = {
     try {
       const response = await fetch(`${API_BASE_URL}/fetchLabel`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
         body: JSON.stringify({ label }),
       });
 
