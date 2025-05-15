@@ -1,4 +1,3 @@
-
 #html5qr-code-full-region {
   width: 100%;
   max-width: 600px;
@@ -50,14 +49,23 @@
   opacity: 0.9;
 }
 
+#html5qr-code-full-region img {
+  opacity: 0.9;
+  margin: 0 auto;
+}
+
 /* Make the scanner look part of the theme */
 #html5qr-code-full-region:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary)),
+    hsl(var(--secondary))
+  );
   z-index: 1;
 }
