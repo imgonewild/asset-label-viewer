@@ -77,13 +77,14 @@ const Inventory = () => {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Search Inventory</CardTitle>
+          <CardTitle>Inventory Management</CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-4">
               <TabsTrigger value="search">Search by Label</TabsTrigger>
               <TabsTrigger value="scan">Scan Label</TabsTrigger>
+              <TabsTrigger value="upload">Upload CSV</TabsTrigger>
             </TabsList>
 
             <TabsContent value="search">
@@ -114,11 +115,13 @@ const Inventory = () => {
             <TabsContent value="scan">
               <Scanner onScan={handleScanResult} />
             </TabsContent>
+
+            <TabsContent value="upload">
+              <CsvUploader />
+            </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
-
-      <CsvUploader />
 
       {searchResults && <SearchResults data={searchResults} />}
     </div>
