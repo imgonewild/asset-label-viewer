@@ -39,9 +39,9 @@ const Inventory = () => {
       //   body: JSON.stringify({ label }),
       // });
 
-      const response = await ApiService.searchByLabel(label);
+      const data = await ApiService.searchByLabel(label);
 
-      const data = await response.json();
+      // const data = await response.json();
 
       if (data && data.length > 0) {
         setSearchResults(data[0]);
