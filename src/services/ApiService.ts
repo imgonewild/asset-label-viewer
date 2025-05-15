@@ -10,7 +10,7 @@
 const protocol = "https:";
 const hostname = window.location.hostname;
 const API_BASE_URL = `${protocol}//${hostname}:3000`;
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 export const ApiService = {
   /**
