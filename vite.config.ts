@@ -13,8 +13,8 @@ export default defineConfig(({ mode, command }) => {
       port: 8081,
       ...(isSSL && {
         https: {
-          key: fs.readFileSync(path.resolve(__dirname, "cert/key.pem")),
-          cert: fs.readFileSync(path.resolve(__dirname, "cert/cert.pem")),
+          key: fs.readFileSync(path.resolve(__dirname, "certs/key.pem")),
+          cert: fs.readFileSync(path.resolve(__dirname, "certs/cert.pem")),
         },
       }),
     },
