@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SearchResults from "@/components/inventory/SearchResults";
 import Scanner from "@/components/inventory/Scanner";
 import ApiService from "@/services/ApiService";
+import Logo from "./assets/inteplast-logo-blue.svg";
 
 const Inventory = () => {
   const [label, setLabel] = useState("");
@@ -80,8 +81,9 @@ const Inventory = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">
-        WPJK IT Inventory Management
+      <h1 className="text-3xl font-bold mb-8 text-center flex items-center justify-center gap-2">
+        <img src={Logo} alt="Logo" className="h-8 w-8" />
+        WPJK IT
       </h1>
 
       <Card className="mb-8">
