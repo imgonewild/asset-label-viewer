@@ -1,4 +1,3 @@
-
 /**
  * Service for making API calls to the backend
  *
@@ -8,9 +7,10 @@
  */
 
 // Determine API base URL based on the current environment
-const protocol = window.location.protocol;
+const protocol = "https:";
 const hostname = window.location.hostname;
 const API_BASE_URL = `${protocol}//${hostname}:3000`;
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 export const ApiService = {
   /**
@@ -22,9 +22,9 @@ export const ApiService = {
     try {
       const response = await fetch(`${API_BASE_URL}/fetchLabel`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
         body: JSON.stringify({ label }),
       });
 
