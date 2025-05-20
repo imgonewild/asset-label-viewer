@@ -90,7 +90,7 @@ const CsvUploader: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Upload Inventory Data</CardTitle>
+        <CardTitle>Upload Data</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col space-y-4">

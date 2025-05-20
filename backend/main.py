@@ -83,7 +83,7 @@ def upload():
 
 if __name__ == '__main__': #WP-DV-23101
     # Uncomment the certificate and key lines
-    # context = ('./certs/localhost+3.pem', './certs/localhost+3-key.pem')  # certificate and key files
-    context = ('./certs/key.pem', './certs/cert.pem') 
+    context = ('./certs-old/localhost+3.pem', './certs-old/localhost+3-key.pem')  # certificate and key files
+    # context = ('./certs/key.pem', './certs/cert.pem') 
     # Run the server with HTTPS enabled
     app.run(host='0.0.0.0', port=3000, ssl_context=context)

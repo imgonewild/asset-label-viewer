@@ -72,7 +72,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Inventory Details for Label: {data.label}</CardTitle>
+        <CardTitle>Details for Label: {data.label}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-6 flex justify-center">

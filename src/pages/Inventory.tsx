@@ -77,7 +77,7 @@ const Inventory = () => {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Inventory Management</CardTitle>
+          <CardTitle>Search IT Asset Tag</CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
