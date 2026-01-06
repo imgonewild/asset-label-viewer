@@ -40,6 +40,28 @@ export const ApiService = {
   },
 
   /**
+   * Search for assets by user name
+   * @param user The user name to search for
+   */
+  searchByUser: async (user: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/fetchUser`, {
+        method: "POST",
+        body: JSON.stringify({ user }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("API Error:", error);
+      throw error;
+    }
+  },
+
+  /**
    * Upload CSV data to the server
    * @param file The CSV file to upload
    */

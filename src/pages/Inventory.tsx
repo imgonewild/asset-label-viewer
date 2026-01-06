@@ -14,6 +14,7 @@ import Logo from "./assets/inteplast-logo-blue.svg";
 
 const Inventory = () => {
   const [label, setLabel] = useState("");
+  const [userName, setUserName] = useState("");
   const [searchResults, setSearchResults] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("search");
@@ -59,6 +60,46 @@ const Inventory = () => {
     }
   };
 
+  const handleSearchByUser = async () => {
+    if (!userName) {
+      toast({
+        title: "Error",
+        description: "Please enter a user name to search",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const data = await ApiService.searchByUser(userName);
+
+      if (data && data.length > 0) {
+        setSearchResults(data);
+        toast({
+          title: "Success",
+          description: `Found ${data.length} asset(s) for this user`,
+        });
+      } else {
+        setSearchResults(null);
+        toast({
+          title: "No results",
+          description: "No assets found for this user",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Search error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to search for the user. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleScanResult = (result: string) => {
     setLabel(result);
     setActiveTab("search");
@@ -83,6 +124,7 @@ const Inventory = () => {
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-4">
               <TabsTrigger value="search">Search by Label</TabsTrigger>
+              <TabsTrigger value="search-user">Search by User</TabsTrigger>
               <TabsTrigger value="scan">Scan Label</TabsTrigger>
               <TabsTrigger value="upload">Upload CSV</TabsTrigger>
             </TabsList>
@@ -97,6 +139,31 @@ const Inventory = () => {
                 />
                 <Button
                   onClick={handleSearch}
+                  disabled={isLoading}
+                  className="flex-shrink-0"
+                >
+                  {isLoading ? (
+                    "Searching..."
+                  ) : (
+                    <>
+                      <Search className="h-4 w-4 mr-2" />
+                      Search
+                    </>
+                  )}
+                </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="search-user">
+              <div className="flex gap-2 mb-4">
+                <Input
+                  placeholder="Enter user name..."
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={handleSearchByUser}
                   disabled={isLoading}
                   className="flex-shrink-0"
                 >

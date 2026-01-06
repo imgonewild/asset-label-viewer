@@ -61,6 +61,49 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
     },
   ];
 
+  // Check if data is an array (multiple results from user search)
+  const isMultipleResults = Array.isArray(data);
+
+  // Render multiple results (for user search)
+  if (isMultipleResults) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Found {data.length} Asset(s)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Label</TableHead>
+                <TableHead>User</TableHead>
+                <TableHead>Location</TableHead>
+                <TableHead>Brand</TableHead>
+                <TableHead>Model</TableHead>
+                <TableHead>IP Address</TableHead>
+                <TableHead>Host Name</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data.map((item: any, index: number) => (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">{item.label || "-"}</TableCell>
+                  <TableCell>{item.user || "-"}</TableCell>
+                  <TableCell>{item.location || "-"}</TableCell>
+                  <TableCell>{item.brand || "-"}</TableCell>
+                  <TableCell>{item.model || "-"}</TableCell>
+                  <TableCell>{item.ip_address || "-"}</TableCell>
+                  <TableCell>{item.host_name || "-"}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // Render single result (for label search) - original detailed view
   // Determine which image to show based on label
   let imageSrc = "";
   if (data.label === "WP-DV-23101") {
@@ -76,7 +119,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
       </CardHeader>
       <CardContent>
         <div className="mb-6 flex justify-center">
-          <img 
+          <img
             src={imageSrc}
             alt={`Item Image for ${data.label}`}
             className="rounded-lg max-h-64 object-contain shadow-md"

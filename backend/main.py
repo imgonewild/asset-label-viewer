@@ -12,7 +12,7 @@ cors = CORS(app)
 
 # MySQL database configuration
 db_config = {
-    'host': '127.0.0.1',
+    'host': '172.17.27.20',
     'user': 'root',
     'password': '',
     'database': 'test'}
@@ -42,6 +42,31 @@ def index():
 
         data = cursor.fetchall()
 
+        result = [dict(zip(cursor.column_names, row)) for row in data]
+        cursor.close()
+        conn.close()
+
+        return jsonify(result)
+
+    except Exception as e:
+        return str(e)
+
+@cross_origin()
+@app.route('/fetchUser', methods=['POST'])
+def search_by_user():
+    try:
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        payload = request.get_json(force=True)
+        user_search = payload['user']
+
+        cursor.execute(
+            "SELECT * FROM wpjk WHERE user LIKE %s",
+            (f"%{user_search}%",)
+        )
+
+        data = cursor.fetchall()
         result = [dict(zip(cursor.column_names, row)) for row in data]
         cursor.close()
         conn.close()
