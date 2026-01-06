@@ -16,6 +16,7 @@ const Inventory = () => {
   const [label, setLabel] = useState("");
   const [userName, setUserName] = useState("");
   const [searchResults, setSearchResults] = useState<any>(null);
+  const [searchType, setSearchType] = useState<"label" | "user">("label");
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("search");
   const { toast } = useToast();
@@ -35,6 +36,7 @@ const Inventory = () => {
       const data = await ApiService.searchByLabel(label);
 
       if (data && data.length > 0) {
+        setSearchType("label");
         setSearchResults(data[0]);
         toast({
           title: "Success",
@@ -75,6 +77,7 @@ const Inventory = () => {
       const data = await ApiService.searchByUser(userName);
 
       if (data && data.length > 0) {
+        setSearchType("user");
         setSearchResults(data);
         toast({
           title: "Success",
@@ -190,7 +193,7 @@ const Inventory = () => {
         </CardContent>
       </Card>
 
-      {searchResults && <SearchResults data={searchResults} />}
+      {searchResults && <SearchResults data={searchResults} searchType={searchType} />}
     </div>
   );
 };

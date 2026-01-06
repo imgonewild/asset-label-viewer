@@ -5,9 +5,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 interface SearchResultsProps {
   data: any;
+  searchType?: "label" | "user";
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ data, searchType = "label" }) => {
   const sections = [
     {
       title: "General Information",
@@ -61,96 +62,76 @@ const SearchResults: React.FC<SearchResultsProps> = ({ data }) => {
     },
   ];
 
-  // Check if data is an array (multiple results from user search)
-  const isMultipleResults = Array.isArray(data);
+  // Helper function to render detailed card for a single item
+  const renderDetailedCard = (itemData: any, index?: number) => {
+    // Determine which image to show based on label
+    let imageSrc = "";
+    if (itemData.label === "WP-DV-23101") {
+      imageSrc = "/WP-DV-23101.jpg";
+    } else {
+      imageSrc = `/${itemData.label}.jpg`;
+    }
 
-  // Render multiple results (for user search)
-  if (isMultipleResults) {
     return (
-      <Card>
+      <Card key={index !== undefined ? index : itemData.label} className={index !== undefined ? "mb-6" : ""}>
         <CardHeader>
-          <CardTitle>Found {data.length} Asset(s)</CardTitle>
+          <CardTitle>
+            {searchType === "user"
+              ? `Details for User: ${itemData.user}`
+              : `Details for Label: ${itemData.label}`}
+          </CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="mb-6 flex justify-center">
+            <img
+              src={imageSrc}
+              alt={`Item Image for ${itemData.label}`}
+              className="rounded-lg max-h-64 object-contain shadow-md"
+              onError={(e) => {
+                // If image fails to load, hide it
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+          </div>
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Label</TableHead>
-                <TableHead>User</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Brand</TableHead>
-                <TableHead>Model</TableHead>
-                <TableHead>IP Address</TableHead>
-                <TableHead>Host Name</TableHead>
-              </TableRow>
-            </TableHeader>
             <TableBody>
-              {data.map((item: any, index: number) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">{item.label || "-"}</TableCell>
-                  <TableCell>{item.user || "-"}</TableCell>
-                  <TableCell>{item.location || "-"}</TableCell>
-                  <TableCell>{item.brand || "-"}</TableCell>
-                  <TableCell>{item.model || "-"}</TableCell>
-                  <TableCell>{item.ip_address || "-"}</TableCell>
-                  <TableCell>{item.host_name || "-"}</TableCell>
-                </TableRow>
+              {sections.map((section) => (
+                <React.Fragment key={section.title}>
+                  <TableRow className="bg-muted">
+                    <TableCell colSpan={2} className="font-bold">
+                      {section.title}
+                    </TableCell>
+                  </TableRow>
+                  {section.fields.map((field) => (
+                    <TableRow key={field.key}>
+                      <TableCell className="font-medium w-1/3">{field.label}</TableCell>
+                      <TableCell>{itemData[field.key] || "-"}</TableCell>
+                    </TableRow>
+                  ))}
+                </React.Fragment>
               ))}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
     );
+  };
+
+  // Check if data is an array (multiple results from user search)
+  const isMultipleResults = Array.isArray(data);
+
+  // Render multiple results (for user search)
+  if (isMultipleResults) {
+    return (
+      <div>
+        <h2 className="text-2xl font-bold mb-6">Found {data.length} Asset(s)</h2>
+        {data.map((item: any, index: number) => renderDetailedCard(item, index))}
+      </div>
+    );
   }
 
-  // Render single result (for label search) - original detailed view
-  // Determine which image to show based on label
-  let imageSrc = "";
-  if (data.label === "WP-DV-23101") {
-    imageSrc = "/WP-DV-23101.jpg";
-  } else {
-    imageSrc = `/${data.label}.jpg`;
-  }
-
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Details for Label: {data.label}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-6 flex justify-center">
-          <img
-            src={imageSrc}
-            alt={`Item Image for ${data.label}`}
-            className="rounded-lg max-h-64 object-contain shadow-md"
-            onError={(e) => {
-              // If image fails to load, hide it
-              (e.target as HTMLImageElement).style.display = 'none';
-            }}
-          />
-        </div>
-        <Table>
-          <TableBody>
-            {sections.map((section) => (
-              <React.Fragment key={section.title}>
-                <TableRow className="bg-muted">
-                  <TableCell colSpan={2} className="font-bold">
-                    {section.title}
-                  </TableCell>
-                </TableRow>
-                {section.fields.map((field) => (
-                  <TableRow key={field.key}>
-                    <TableCell className="font-medium w-1/3">{field.label}</TableCell>
-                    <TableCell>{data[field.key] || "-"}</TableCell>
-                  </TableRow>
-                ))}
-              </React.Fragment>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
-  );
+  // Render single result (for label search)
+  return renderDetailedCard(data);
 };
 
 export default SearchResults;
